@@ -1,0 +1,336 @@
+{
+  "$schema": "https://www.raycast.com/schemas/extension.json",
+  "name": "llm-quick-actions",
+  "title": "LLM Quick Actions",
+  "description": "Performs one-shot actions with multiple LLM providers (OpenAI, Claude, Gemini)",
+  "icon": "icon.png",
+  "author": "ivnvxd",
+  "categories": ["Productivity"],
+  "license": "MIT",
+  "keywords": [
+    "ai",
+    "llm",
+    "gpt",
+    "claude",
+    "gemini",
+    "openai",
+    "anthropic",
+    "google",
+    "writing",
+    "translate",
+    "summarize",
+    "rewrite"
+  ],
+  "commands": [
+    {
+      "name": "summarize",
+      "title": "Summarize",
+      "description": "Summarize selected text",
+      "mode": "view",
+      "preferences": [
+        {
+          "name": "prompt_summarize",
+          "title": "Summarize Prompt",
+          "description": "The prompt for the summarize command",
+          "type": "textfield",
+          "default": "Summarize the following text as concise as possible: \n\n",
+          "required": false
+        },
+        {
+          "name": "provider_model_summarize",
+          "title": "Provider & Model",
+          "description": "Select provider and model for this command",
+          "type": "dropdown",
+          "required": false,
+          "data": {{COMMAND_MODELS_LIST}}
+        }
+      ]
+    },
+    {
+      "name": "rewrite",
+      "title": "Rewrite",
+      "description": "Rewrite selected text",
+      "mode": "view",
+      "preferences": [
+        {
+          "name": "prompt_rewrite",
+          "title": "Rewrite Prompt",
+          "description": "The prompt for the rewrite command",
+          "type": "textfield",
+          "default": "Rewrite this using an academic tone: \n\n",
+          "required": false
+        },
+        {
+          "name": "provider_model_rewrite",
+          "title": "Provider & Model",
+          "description": "Select provider and model for this command",
+          "type": "dropdown",
+          "required": false,
+          "data": {{COMMAND_MODELS_LIST}}
+        }
+      ]
+    },
+    {
+      "name": "refine",
+      "title": "Refine",
+      "description": "Refine the writing of selected text",
+      "mode": "view",
+      "preferences": [
+        {
+          "name": "prompt_refine",
+          "title": "Refine Prompt",
+          "description": "The prompt for the refine command",
+          "type": "textfield",
+          "default": "Refine the writing and correct grammar mistakes: \n\n",
+          "required": false
+        },
+        {
+          "name": "provider_model_refine",
+          "title": "Provider & Model",
+          "description": "Select provider and model for this command",
+          "type": "dropdown",
+          "required": false,
+          "data": {{COMMAND_MODELS_LIST}}
+        }
+      ]
+    },
+    {
+      "name": "custom",
+      "title": "Custom Action",
+      "description": "Ask LLM based on a custom prompt",
+      "mode": "view",
+      "preferences": [
+        {
+          "name": "prompt_custom",
+          "title": "Custom Prompt",
+          "description": "The prompt for the custom action command",
+          "type": "textfield",
+          "default": "Refine the writing and correct grammar mistakes: \n\n",
+          "required": false
+        },
+        {
+          "name": "provider_model_custom",
+          "title": "Provider & Model",
+          "description": "Select provider and model for this command",
+          "type": "dropdown",
+          "required": false,
+          "data": {{COMMAND_MODELS_LIST}}
+        }
+      ]
+    },
+    {
+      "name": "execute",
+      "title": "Execute",
+      "description": "Replace selected text with LLM output",
+      "mode": "no-view",
+      "preferences": [
+        {
+          "name": "provider_model_execute",
+          "title": "Provider & Model",
+          "description": "Select provider and model for this command",
+          "type": "dropdown",
+          "required": false,
+          "data": {{COMMAND_MODELS_LIST}}
+        }
+      ]
+    },
+    {
+      "name": "preview",
+      "title": "Preview",
+      "description": "Use selected text as LLM input and preview output",
+      "mode": "view",
+      "preferences": [
+        {
+          "name": "provider_model_preview",
+          "title": "Provider & Model",
+          "description": "Select provider and model for this command",
+          "type": "dropdown",
+          "required": false,
+          "data": {{COMMAND_MODELS_LIST}}
+        }
+      ]
+    },
+    {
+      "name": "transform",
+      "title": "Transform",
+      "description": "Replace selected text with LLM output, based on a prompt entered when the command is run",
+      "mode": "no-view",
+      "arguments": [
+        {
+          "name": "prompt",
+          "placeholder": "e.g. beautify JSON",
+          "type": "text",
+          "required": true
+        }
+      ],
+      "preferences": [
+        {
+          "name": "provider_model_transform",
+          "title": "Provider & Model",
+          "description": "Select provider and model for this command",
+          "type": "dropdown",
+          "required": false,
+          "data": {{COMMAND_MODELS_LIST}}
+        }
+      ]
+    },
+    {
+      "name": "transform_preview",
+      "title": "Transform Preview",
+      "description": "Same as Transform, but shows the output in a preview window instead of replacing the selected text",
+      "mode": "view",
+      "arguments": [
+        {
+          "name": "prompt",
+          "placeholder": "e.g. beautify JSON",
+          "type": "text",
+          "required": true
+        }
+      ],
+      "preferences": [
+        {
+          "name": "provider_model_transform_preview",
+          "title": "Provider & Model",
+          "description": "Select provider and model for this command",
+          "type": "dropdown",
+          "required": false,
+          "data": {{COMMAND_MODELS_LIST}}
+        }
+      ]
+    },
+    {
+      "name": "translate",
+      "title": "Translate",
+      "description": "Translate selected text to a target language",
+      "mode": "view",
+      "preferences": [
+        {
+          "name": "target_language",
+          "title": "Target Language",
+          "description": "The language to translate to",
+          "type": "textfield",
+          "default": "English",
+          "required": true
+        },
+        {
+          "name": "provider_model_translate",
+          "title": "Provider & Model",
+          "description": "Select provider and model for this command",
+          "type": "dropdown",
+          "required": false,
+          "data": {{COMMAND_MODELS_LIST}}
+        }
+      ]
+    },
+    {
+      "name": "explain",
+      "title": "Explain",
+      "description": "Explain selected text in simple terms",
+      "mode": "view",
+      "preferences": [
+        {
+          "name": "provider_model_explain",
+          "title": "Provider & Model",
+          "description": "Select provider and model for this command",
+          "type": "dropdown",
+          "required": false,
+          "data": {{COMMAND_MODELS_LIST}}
+        }
+      ]
+    },
+    {
+      "name": "reply",
+      "title": "Reply",
+      "description": "Draft a reply to the selected message",
+      "mode": "view",
+      "arguments": [
+        {
+          "name": "instructions",
+          "placeholder": "e.g. decline politely, ask for deadline",
+          "type": "text",
+          "required": false
+        }
+      ],
+      "preferences": [
+        {
+          "name": "reply_tone",
+          "title": "Reply Tone",
+          "description": "The tone for the reply",
+          "type": "dropdown",
+          "default": "professional",
+          "required": true,
+          "data": [
+            { "title": "Professional", "value": "professional" },
+            { "title": "Friendly", "value": "friendly" },
+            { "title": "Casual", "value": "casual" },
+            { "title": "Formal", "value": "formal" }
+          ]
+        },
+        {
+          "name": "provider_model_reply",
+          "title": "Provider & Model",
+          "description": "Select provider and model for this command",
+          "type": "dropdown",
+          "required": false,
+          "data": {{COMMAND_MODELS_LIST}}
+        }
+      ]
+    }
+  ],
+  "preferences": [
+    {
+      "name": "openai_apikey",
+      "title": "OpenAI API Key",
+      "description": "API Key for OpenAI (get from platform.openai.com)",
+      "type": "password",
+      "required": false
+    },
+    {
+      "name": "anthropic_apikey",
+      "title": "Claude API Key",
+      "description": "API Key for Claude (get from console.anthropic.com)",
+      "type": "password",
+      "required": false
+    },
+    {
+      "name": "google_apikey",
+      "title": "Gemini API Key",
+      "description": "API Key for Gemini (get from aistudio.google.com)",
+      "type": "password",
+      "required": false
+    },
+    {
+      "name": "default_model",
+      "title": "Default Model",
+      "description": "Default provider and model. Pricing: input/output per 1M tokens",
+      "type": "dropdown",
+      "required": true,
+      "default": "openai:gpt-5-mini",
+      "data": {{GLOBAL_MODELS_LIST}}
+    }
+  ],
+  "dependencies": {
+    "@raycast/api": "^1.104.0",
+    "openai": "^6.15.0",
+    "@anthropic-ai/sdk": "^0.71.0",
+    "@google/generative-ai": "^0.24.0",
+    "@nem035/gpt-3-encoder": "^1.1.7"
+  },
+  "devDependencies": {
+    "@raycast/eslint-config": "^2.1.0",
+    "@types/node": "^22.13.0",
+    "@types/react": "^19.0.0",
+    "eslint": "^9.39.0",
+    "prettier": "^3.7.0",
+    "typescript": "^5.7.0"
+  },
+  "scripts": {
+    "build": "ray build -e dist",
+    "build-package": "node scripts/build-package.js",
+    "dev": "ray develop",
+    "fix-lint": "ray lint --fix",
+    "lint": "ray lint",
+    "publish": "ray publish"
+  },
+  "platforms": ["macOS"]
+}
