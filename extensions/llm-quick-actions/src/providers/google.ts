@@ -70,6 +70,10 @@ export class GoogleProvider implements LLMProvider {
     });
 
     const result = await chat.sendMessage(lastMessage.content);
-    return result.response.text().trim();
+    const content = result.response.text().trim();
+    if (!content) {
+      throw new Error("Gemini returned an empty response");
+    }
+    return content;
   }
 }

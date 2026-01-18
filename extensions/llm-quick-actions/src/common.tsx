@@ -1,4 +1,4 @@
-import { Detail, ActionPanel, Action, getSelectedText, showToast, Toast, Icon } from "@raycast/api";
+import { Detail, ActionPanel, Action, showToast, Toast, Icon, getSelectedText } from "@raycast/api";
 import { useState, useEffect, useRef } from "react";
 import { getProviderAndModel } from "./providers";
 import { ProviderType } from "./providers/types";
@@ -24,11 +24,21 @@ export default function ResultView(prompt: string, providerModelOverride: string
     const requestId = ++requestIdRef.current;
 
     const startTime = Date.now();
+
+    let text: string;
+    try {
+      text = await getSelectedText();
+    } catch {
+      setLoading(false);
+      setResponse(
+        "⚠️ Raycast was unable to get the selected text. You may try copying the text to a text editor and try again."
+      );
+      return;
+    }
+
     const toast = await showToast(Toast.Style.Animated, toastTitle);
 
     try {
-      const text = await getSelectedText();
-
       if (text.length > MAX_INPUT_LENGTH) {
         throw new Error(
           `Selected text is too long (${text.length.toLocaleString()} characters). Maximum is ${MAX_INPUT_LENGTH.toLocaleString()} characters.`
@@ -161,12 +171,14 @@ export default function ResultView(prompt: string, providerModelOverride: string
 /**
  * Execute a completion without showing UI (for no-view commands)
  */
-export async function executeCompletion(prompt: string, providerModelOverride?: string): Promise<string> {
-  const text = await getSelectedText();
-
-  if (text.length > MAX_INPUT_LENGTH) {
+export async function executeCompletion(
+  selectedText: string,
+  prompt: string,
+  providerModelOverride?: string
+): Promise<string> {
+  if (selectedText.length > MAX_INPUT_LENGTH) {
     throw new Error(
-      `Selected text is too long (${text.length.toLocaleString()} characters). Maximum is ${MAX_INPUT_LENGTH.toLocaleString()} characters.`
+      `Selected text is too long (${selectedText.length.toLocaleString()} characters). Maximum is ${MAX_INPUT_LENGTH.toLocaleString()} characters.`
     );
   }
 
@@ -180,7 +192,7 @@ export async function executeCompletion(prompt: string, providerModelOverride?: 
 
   const messages = [
     { role: "system" as const, content: prompt },
-    { role: "user" as const, content: text },
+    { role: "user" as const, content: selectedText },
   ];
 
   const result = await provider.createCompletion(messages, model);

@@ -38,6 +38,14 @@ export class OpenAIProvider implements LLMProvider {
       })),
     });
 
-    return response.choices[0]?.message?.content?.trim() || "";
+    const content = response.choices[0]?.message?.content?.trim();
+    if (!content) {
+      const finishReason = response.choices[0]?.finish_reason;
+      if (finishReason === "content_filter") {
+        throw new Error("Content was filtered by OpenAI. The request may violate usage policies.");
+      }
+      throw new Error(`OpenAI returned no content (finish_reason: ${finishReason || "unknown"})`);
+    }
+    return content;
   }
 }

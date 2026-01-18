@@ -49,6 +49,13 @@ export class AnthropicProvider implements LLMProvider {
     });
 
     const textBlock = response.content.find((block: { type: string }) => block.type === "text");
-    return textBlock?.type === "text" ? (textBlock as { type: "text"; text: string }).text.trim() : "";
+    const content = textBlock?.type === "text" ? (textBlock as { type: "text"; text: string }).text.trim() : "";
+    if (!content) {
+      if (response.stop_reason === "end_turn" && response.content.length === 0) {
+        throw new Error("Claude returned an empty response");
+      }
+      throw new Error(`Claude returned no text content (stop_reason: ${response.stop_reason || "unknown"})`);
+    }
+    return content;
   }
 }
