@@ -2,10 +2,6 @@ import { getPreferenceValues, getSelectedText, Clipboard, showHUD, LaunchProps }
 import { executeCompletion } from "./common";
 import { sanitizeErrorMessage } from "./util";
 
-interface Preferences {
-  provider_model_transform?: string;
-}
-
 interface Arguments {
   prompt: string;
 }
@@ -20,7 +16,7 @@ export default async function Transform(props: LaunchProps<{ arguments: Argument
   }
 
   const { prompt } = props.arguments;
-  const prefs = getPreferenceValues<Preferences>();
+  const prefs = getPreferenceValues<Preferences.Transform>();
   const systemPrompt = `${prompt}\n\nOnly output the result, no explanations:`;
 
   try {

@@ -15,6 +15,22 @@ export default function ResultView(prompt: string, providerModelOverride: string
   const [model, setModel] = useState("");
   const [duration, setDuration] = useState(0);
 
+  // Start fetching selected text IMMEDIATELY during first render (not in useEffect)
+  const textPromiseRef = useRef<Promise<string> | null>(null);
+  const textResultRef = useRef<{ text?: string; error?: boolean }>({});
+
+  if (textPromiseRef.current === null) {
+    textPromiseRef.current = getSelectedText()
+      .then((text) => {
+        textResultRef.current = { text };
+        return text;
+      })
+      .catch(() => {
+        textResultRef.current = { error: true };
+        return "";
+      });
+  }
+
   // Refs for streaming updates and request cancellation
   const responseRef = useRef("");
   const requestIdRef = useRef(0);
@@ -25,9 +41,13 @@ export default function ResultView(prompt: string, providerModelOverride: string
 
     const startTime = Date.now();
 
+    // Wait for text fetch that was started during first render
     let text: string;
     try {
-      text = await getSelectedText();
+      text = await textPromiseRef.current!;
+      if (textResultRef.current.error) {
+        throw new Error("No text selected");
+      }
     } catch {
       setLoading(false);
       setResponse(

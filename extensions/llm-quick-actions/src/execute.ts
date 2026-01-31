@@ -2,10 +2,6 @@ import { getPreferenceValues, getSelectedText, Clipboard, showHUD } from "@rayca
 import { executeCompletion } from "./common";
 import { sanitizeErrorMessage } from "./util";
 
-interface Preferences {
-  provider_model_execute?: string;
-}
-
 export default async function Execute() {
   let selectedText: string;
   try {
@@ -15,7 +11,7 @@ export default async function Execute() {
     return;
   }
 
-  const prefs = getPreferenceValues<Preferences>();
+  const prefs = getPreferenceValues<Preferences.Execute>();
   const prompt = "You are a helpful assistant. Respond to the user's input. Only output the result, no explanations:";
 
   try {

@@ -6,10 +6,7 @@ interface Arguments {
 }
 
 export default function Reply(props: LaunchProps<{ arguments: Arguments }>) {
-  const prefs = getPreferenceValues<{
-    reply_tone: string;
-    provider_model_reply?: string;
-  }>();
+  const prefs = getPreferenceValues<Preferences.Reply>();
   const { instructions } = props.arguments;
 
   const prompt = instructions

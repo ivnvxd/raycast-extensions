@@ -6,7 +6,7 @@ interface Arguments {
 }
 
 export default function TransformPreview(props: LaunchProps<{ arguments: Arguments }>) {
-  const prefs = getPreferenceValues<{ provider_model_transform_preview?: string }>();
+  const prefs = getPreferenceValues<Preferences.TransformPreview>();
   const { prompt } = props.arguments;
 
   return ResultView(prompt, prefs.provider_model_transform_preview, "Transforming...");

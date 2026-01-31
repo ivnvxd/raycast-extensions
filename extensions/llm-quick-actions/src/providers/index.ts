@@ -4,13 +4,6 @@ import { OpenAIProvider } from "./openai";
 import { AnthropicProvider } from "./anthropic";
 import { GoogleProvider } from "./google";
 
-interface Preferences {
-  openai_apikey?: string;
-  anthropic_apikey?: string;
-  google_apikey?: string;
-  default_model: string; // format: "provider:model"
-}
-
 /**
  * Create a provider instance based on type
  */
